@@ -1,0 +1,17 @@
+meta {
+  name: create user
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/user
+  body: json
+}
+
+body:json {
+  {
+    "name": "Douglas",
+    "age": 35
+  }
+}
