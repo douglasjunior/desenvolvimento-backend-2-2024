@@ -21,20 +21,20 @@ export class UserService {
 
   updateUser(userId: number, updateUserDto: UpdateUserDto) {
     const userIndex = this.users.findIndex(user => user.id === userId);
-    if (userIndex < 0) {
-      throw new NotFoundException('User not found');
+    if (userIndex === -1) {
+      throw new NotFoundException('Usuário não encontrado');
     }
     this.users[userIndex] = {
       ...this.users[userIndex],
-      ...updateUserDto
-    };
+      ...updateUserDto,
+    }
     return this.users[userIndex];
   }
 
   createUser(createUserDto: CreateUserDto) {
     const newUser = {
       ...createUserDto,
-      id: ++this.lastId
+      id: ++this.lastId,
     };
     this.users.push(newUser);
     return newUser;
@@ -43,7 +43,7 @@ export class UserService {
   getUserById(userId: number) {
     const user = this.users.find(user => user.id === userId);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuário não encontrado');
     }
     return user;
   }
