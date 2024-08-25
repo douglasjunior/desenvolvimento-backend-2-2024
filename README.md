@@ -1,6 +1,8 @@
 ## Descrição
 
-[Framework Nest](https://github.com/nestjs/nest) Repositório inicial em TypeScript.
+Código das aulas de Desenvolvimento Backend 2 de 2024.
+
+Repositório criado com [Framework Nest](https://github.com/nestjs/nest) e TypeScript.
 
 ## Configuração do projeto
 
