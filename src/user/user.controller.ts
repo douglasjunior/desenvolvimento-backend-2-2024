@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
 // http://localhost:3000/user
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
 
   // GET http://localhost:3000/user
   @Get('/')
