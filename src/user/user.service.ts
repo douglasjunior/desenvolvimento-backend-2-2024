@@ -1,54 +1,49 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './data/user.entity';
 
 @Injectable()
 export class UserService {
 
-  private lastId = 2;
-  private users = [
-    {
-      id: 1,
-      name: 'Douglas',
-      age: 35
-    },
-    {
-      id: 2,
-      name: 'Maria',
-      age: 25
-    }
-  ];
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
-  updateUser(userId: number, updateUserDto: UpdateUserDto) {
-    const userIndex = this.users.findIndex(user => user.id === userId);
-    if (userIndex === -1) {
+  async updateUser(userId: number, updateUserDto: UpdateUserDto) {
+    const userCount = await this.usersRepository.countBy({
+      id: userId,
+    });
+    if (!userCount) {
       throw new NotFoundException('Usuário não encontrado');
     }
-    this.users[userIndex] = {
-      ...this.users[userIndex],
+    const updatedUser = await this.usersRepository.save({
       ...updateUserDto,
-    }
-    return this.users[userIndex];
+      id: userId,
+    })
+    return updatedUser;
   }
 
-  createUser(createUserDto: CreateUserDto) {
-    const newUser = {
-      ...createUserDto,
-      id: ++this.lastId,
-    };
-    this.users.push(newUser);
+  async createUser(createUserDto: CreateUserDto) {
+    const newUser = await this.usersRepository.save(createUserDto);
     return newUser;
   }
 
-  getUserById(userId: number) {
-    const user = this.users.find(user => user.id === userId);
+  async getUserById(userId: number) {
+    const user = await this.usersRepository.findOneBy({
+      id: userId,
+    });
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
     return user;
   }
 
-  getUsers() {
-    return this.users;
+  async getUsers() {
+    const users = await this.usersRepository.find();
+    return users;
   }
 }
