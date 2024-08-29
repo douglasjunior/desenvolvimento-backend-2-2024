@@ -7,7 +7,6 @@ import { User } from './data/user.entity';
 
 @Injectable()
 export class UserService {
-
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -39,6 +38,13 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
+    return user;
+  }
+
+  async getUserByEmail(email: string) {
+    const user = await this.usersRepository.findOneBy({
+      email: email,
+    });
     return user;
   }
 
