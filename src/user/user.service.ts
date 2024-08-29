@@ -10,7 +10,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async updateUser(userId: number, updateUserDto: UpdateUserDto) {
     const userCount = await this.usersRepository.countBy({
@@ -31,16 +31,6 @@ export class UserService {
     return newUser;
   }
 
-  async getUserById(userId: number) {
-    const user = await this.usersRepository.findOneBy({
-      id: userId,
-    });
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
-    }
-    return user;
-  }
-
   async getUserByEmail(email: string) {
     const user = await this.usersRepository.findOneBy({
       email: email,
@@ -48,8 +38,23 @@ export class UserService {
     return user;
   }
 
+  async getUserById(userId: number) {
+    const user = await this.usersRepository.findOne({
+      select: ['id', 'name', 'email', 'age'],
+      where: {
+        id: userId,
+      }
+    });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    return user;
+  }
+
   async getUsers() {
-    const users = await this.usersRepository.find();
+    const users = await this.usersRepository.find({
+      select: ['id', 'name', 'email', 'age'],
+    });
     return users;
   }
 }

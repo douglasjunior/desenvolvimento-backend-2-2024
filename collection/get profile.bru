@@ -1,0 +1,22 @@
+meta {
+  name: get profile
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:3000/auth/profile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidXNlckBtYWlsLmNvbSIsImlhdCI6MTcyNDg5NTc2MH0.Zz9q-8c7RL8kCFXpfFh9FRH0GMPAJZydx9Aunt7aaGs
+}
+
+body:json {
+  {
+    "email": "user@mail.com",
+    "password": "senha123"
+  }
+}

@@ -18,8 +18,3 @@ export class UserModule {
       .forRoutes(UserController);
   }
 }
-
-
-
-
-
