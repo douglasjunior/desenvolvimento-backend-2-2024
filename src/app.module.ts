@@ -1,18 +1,24 @@
+import * as path from 'path';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import * as path from 'path';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: path.join('database', 'db.sqlite'),
-      entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
-      synchronize: true,
+    ConfigModule.forRoot({ isGlobal: true }), 
+    TypeOrmModule.forRootAsync({
+      useFactory: () => {
+        return {
+          type: 'sqlite',
+          database: path.join('database', 'db.sqlite'),
+          entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
+          synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+        }
+      },
     }),
     UserModule,
     AuthModule,

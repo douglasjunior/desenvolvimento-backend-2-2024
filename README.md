@@ -10,6 +10,8 @@ Repositório criado com [Framework Nest](https://github.com/nestjs/nest) e TypeS
 $ npm install
 ```
 
+IMPORTANTE: Copie o arquivo `.env-example` para `.env` e ajuste os valores desejados.
+
 ## Compilar e executar o projeto
 
 ```bash

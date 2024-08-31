@@ -7,7 +7,11 @@ import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
-    JwtModule.register({ secret: 'minha-chave-super-forte' }),
+    JwtModule.registerAsync({
+      useFactory: () => {
+        return { secret: process.env.JWT_KEY }
+      }
+    }),
     UserModule
   ],
   controllers: [AuthController],
