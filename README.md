@@ -28,14 +28,14 @@ $ npm run start:prod
 ## Executar testes
 
 ```bash
-# testes unitários
-$ npm run test
+# executando testes do UserController
+$ npm run test -- user.controller.spec.ts
 
-# e2e tests
+# gerando relatório de cobertura 
+$ npm run test -- user.controller.spec.ts --coverage
+
+# executando teste de ponta a ponta
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Abrir a collection com [Bruno](https://www.usebruno.com/)
